@@ -6,7 +6,7 @@ the analysis side of my particle physics research or might run into in the futur
 many other physicists needs.  My background is in phenomenology (i.e. theory rather than experiment) so while I hope this code 
 may help experimentalists, I imagine that my background will strongly affect design choices, at least initially.
 
-## Implementation Notes
+## Implementation Notes/ Plan
 
 ### subpackage: lorentz
 
@@ -19,8 +19,20 @@ the Levi-Civita tensor, as well as methods for boosts and rotations in 4-D.
 
 ### subpackage: event
 
-This subpackage will contain the classes 
+This subpackage will be further divided into sub-subpackages for different types of events.  I anticipate lhco (for 
+events that can be specified with information in LHC Olympics format) and lhe (for events that can be specified with
+information in Les Houches Accord format), but there may be more at some point.  The very first step is to implement the
+lhco sub-subpackage
 
+### sub-subpackage: event.lhco
+
+This sub-subpackage contains classes for physics_object, event, event_list, variable, cut, cut_based_analysis, and histogram_data
+
+**physics_object**: contains a frame 
+
+### subpackage: io
+
+This package contains
 
 
 
