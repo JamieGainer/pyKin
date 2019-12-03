@@ -43,9 +43,14 @@ Inheriting from it are
 The event class also comes with a set of simple methods for obtaining components of four vectors (or actual four-vectors)
 or for iterating over particles of a given type.  Some of these return a custom "PhysicsObjectNotFound" exception.  We sort 
 each list by pT (descending) and enforce that there is only one missing_energy object in the event whose momenta is the sum of 
-all missing_energy objects passed to the event.  (Each event can have either a hadron_collider_missing_energy object or a
+all missing_energy objects passed to the event.  (We may actually enforce this by NOT making missing energy a list of missing energy objects but THE missing energy object which can be initialized to the zero vector in the absense of actual MET.)  
+(Each event can have either a hadron_collider_missing_energy object or a
 lepton_collider_missing_energy_object.  The former is strictly transverse, the latter is not.)  An event can also have
-additional attributes like a weight.  An event also contains variables (described below).
+additional attributes like a weight.  
+
+I'm trying to figure out the best way to handle variables which are calculated for each event.  I think the approach will be
+to have a method that returns each pT sorted list of variables of a given type.  This keeps variable calculators from needing 
+to know about the internals of event.lhco, which seems like a good thing.
 
 **event_list** is a list of events, possibly with addiitonal information (like a total cross section).  It contains a method
 for giving its objects a weight (assuming uniform weights).
