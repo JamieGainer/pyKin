@@ -15,6 +15,8 @@ class PhysicsObject():
             elif attribute in self.attributes_to_rename:
                 correct_name = self.attributes_to_rename[attribute]
                 setattr(self, correct_name, kwargs[attribute])
+            else:
+                raise ValueError(attribute + ' is not a valid attribute of PhysicsObject.')
 
 
 

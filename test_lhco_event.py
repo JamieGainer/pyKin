@@ -70,6 +70,10 @@ class TestPhysicsObject(unittest.TestCase):
         new_physics_object = lhco_event.PhysicsObject(dummy2=1.0)
         self.assertEqual(new_physics_object.dummy2, 1.0)
 
+    def test_physics_object_nonsense_name(self):
+        with self.assertRaises(ValueError):
+            new_physics_object = lhco_event.PhysicsObject(zxqy=1.0)
+
 
 class TestLHCOEvent(unittest.TestCase):
 
