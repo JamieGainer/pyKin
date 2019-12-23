@@ -11,8 +11,8 @@ class TestPhysicsObject(unittest.TestCase):
         self.assertEqual(new_physics_object.object_number, 1)
 
     def test_physics_object_typ(self):
-        new_physics_object = lhco_event.PhysicsObject(typ=1)
-        self.assertEqual(new_physics_object.typ, 1)
+        new_physics_object = lhco_event.PhysicsObject(type=1)
+        self.assertEqual(new_physics_object.type, 1)
 
     def test_physics_object_eta(self):
         new_physics_object = lhco_event.PhysicsObject(eta=1.0)
@@ -26,13 +26,33 @@ class TestPhysicsObject(unittest.TestCase):
         new_physics_object = lhco_event.PhysicsObject(pt=1.0)
         self.assertEqual(new_physics_object.pt, 1.0)
 
-    def test_physics_object_jmass(self):
-        new_physics_object = lhco_event.PhysicsObject(jmass=1.0)
-        self.assertEqual(new_physics_object.jmass, 1.0)
+    def test_physics_object_mass(self):
+        new_physics_object = lhco_event.PhysicsObject(mass=1.0)
+        self.assertEqual(new_physics_object.mass, 1.0)
 
-    def test_physics_object_ntrk(self):
+    def test_physics_object_jmass_as_mass(self):
+        new_physics_object = lhco_event.PhysicsObject(jmass=1.0)
+        self.assertEqual(new_physics_object.mass, 1.0)
+
+    def test_physics_object_jmass_as_mass(self):
+        new_physics_object = lhco_event.PhysicsObject(jmass=1.0)
+        self.assertEqual(new_physics_object.mass, 1.0)
+
+#    def test_physics_object_jmass_as_jmass(self):
+#        new_physics_object = lhco_event.PhysicsObject(jmass=1.0)
+#        self.assertEqual(new_physics_object.jmass, 1.0)
+
+    def test_physics_object_n_tracks(self):
+        new_physics_object = lhco_event.PhysicsObject(n_tracks=1.0)
+        self.assertEqual(new_physics_object.n_tracks, 1.0)
+
+    def test_physics_object_ntrk_as_n_tracks(self):
         new_physics_object = lhco_event.PhysicsObject(ntrk=1.0)
-        self.assertEqual(new_physics_object.ntrk, 1.0)
+        self.assertEqual(new_physics_object.n_tracks, 1.0)
+
+#    def test_physics_object_ntrk_as_ntrk(self):
+#        new_physics_object = lhco_event.PhysicsObject(ntrk=1.0)
+#        self.assertEqual(new_physics_object.ntrk, 1.0)
 
     def test_physics_object_btag(self):
         new_physics_object = lhco_event.PhysicsObject(btag=1)

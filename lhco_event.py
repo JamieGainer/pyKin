@@ -2,14 +2,21 @@ num_object_types = 7
 
 class PhysicsObject():
 
-    lhco_order_of_fields = ["object_number", "typ", "eta", "phi", "pt", "jmass", "ntrk", "btag",
+    lhco_order_of_fields = ["object_number", "type", "eta", "phi", "pt", "mass", "n_tracks", "btag",
                             "had_em", "dummy1", "dummy2"]
-    possible_attributes = set(lhco_order_of_fields)
+    attributes_to_rename = {'jmass': 'mass', 'ntrk': 'n_tracks', 'e': 'energy'}
 
     def __init__(self, **kwargs):
+        self.possible_attributes = set(self.lhco_order_of_fields)
+        self.possible_attributes.update(['energy', 'px', 'py', 'pz'])
         for attribute in kwargs:
             if attribute in self.possible_attributes:
                 setattr(self, attribute, kwargs[attribute])
+            elif attribute in self.attributes_to_rename:
+                correct_name = self.attributes_to_rename[attribute]
+                setattr(self, correct_name, kwargs[attribute])
+
+
 
 
 class LHCOEvent():
