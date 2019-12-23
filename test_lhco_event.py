@@ -10,6 +10,9 @@ class TestLHCOEvent(unittest.TestCase):
         new_event = lhco_event.LHCOEvent(event_number=1)
         self.assertEqual(new_event.event_number, 1)
 
+    def test_create_event_and_set_trigger_word(self):
+        new_event = lhco_event.LHCOEvent(trigger_word=1)
+        self.assertEqual(new_event.trigger_word, 1)
 
 if __name__ == '__main__':
     unittest.main()
