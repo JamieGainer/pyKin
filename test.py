@@ -10,13 +10,13 @@ class TestFourVector(unittest.TestCase):
     a = lorentz.FourVector(E, px, py, pz)
 
     def test_obtain_p_t(self):
-        self.assertEqual(self.a.p_T, 5.)
+        self.assertEqual(self.a.p_T, pz)
 
     def test_obtain_M(self):
-        self.assertAlmostEqual(self.a.M, np.sqrt(50.))
+        self.assertAlmostEqual(self.a.M, np.sqrt(E**2 - px**2 - py**2 - pz**2))
 
     def test_obtain_p(self):
-        self.assertAlmostEqual(self.a.p, np.sqrt(50.))
+        self.assertAlmostEqual(self.a.p, np.sqrt(px**2 + py**2 + pz**2))
 
     def test_obtain_phi_eq_1(self):
         self._compare_phi_from_vector_with_given_phi_and_phi(1.)
