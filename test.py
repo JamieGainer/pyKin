@@ -3,7 +3,11 @@ import lorentz
 
 import numpy as np
 
+E, px, py, pz = 10., 3., 4., 5
+
 class TestFourVector(unittest.TestCase):
+
+    a = lorentz.FourVector(E, px, py, pz)
 
     def test_obtain_p_t(self):
         self.assertEqual(self.a.p_T, 5.)
@@ -50,9 +54,7 @@ class TestFourVector(unittest.TestCase):
     def test_define_four_vector_from_eta_phi_pt_M_when_theta_eq_2(self):
         self._can_we_redefine_four_vector_from_eta_phi_pt_M(2., 3., E=13., p=2.)
 
-
-    a = lorentz.FourVector(10., 3., 4., 5.)
-
+    # methods to streamline tests above
     def assertListAlmostEqual(self, a, b):
         self.assertEqual(len(a), len(b))
         for a_i, b_i in zip(a, b):
