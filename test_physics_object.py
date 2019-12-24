@@ -1,6 +1,8 @@
 import unittest
 import physics_object
 
+import numpy as np
+
 
 class TestPhysicsObject(unittest.TestCase):
 
@@ -34,13 +36,9 @@ class TestPhysicsObject(unittest.TestCase):
         new_physics_object = physics_object.PhysicsObject(jmass=1.0)
         self.assertEqual(new_physics_object.mass, 1.0)
 
-    def test_physics_object_jmass_as_mass(self):
+    def test_physics_object_jmass_as_jmass(self):
         new_physics_object = physics_object.PhysicsObject(jmass=1.0)
-        self.assertEqual(new_physics_object.mass, 1.0)
-
-#    def test_physics_object_jmass_as_jmass(self):
-#        new_physics_object = physics_object.PhysicsObject(jmass=1.0)
-#        self.assertEqual(new_physics_object.jmass, 1.0)
+        self.assertEqual(new_physics_object.jmass, 1.0)
 
     def test_physics_object_n_tracks(self):
         new_physics_object = physics_object.PhysicsObject(n_tracks=1.0)
@@ -50,9 +48,9 @@ class TestPhysicsObject(unittest.TestCase):
         new_physics_object = physics_object.PhysicsObject(ntrk=1.0)
         self.assertEqual(new_physics_object.n_tracks, 1.0)
 
-#    def test_physics_object_ntrk_as_ntrk(self):
-#        new_physics_object = physics_object.PhysicsObject(ntrk=1.0)
-#        self.assertEqual(new_physics_object.ntrk, 1.0)
+    def test_physics_object_ntrk_as_ntrk(self):
+        new_physics_object = physics_object.PhysicsObject(ntrk=1.0)
+        self.assertEqual(new_physics_object.ntrk, 1.0)
 
     def test_physics_object_btag(self):
         new_physics_object = physics_object.PhysicsObject(btag=1)
@@ -73,6 +71,26 @@ class TestPhysicsObject(unittest.TestCase):
     def test_physics_object_nonsense_name(self):
         with self.assertRaises(ValueError):
             new_physics_object = physics_object.PhysicsObject(zxqy=1.0)
+
+    def test_physics_object_objectnumber_as_object_number(self):
+        new_physics_object = physics_object.PhysicsObject(objectnumber=1)
+        self.assertEqual(new_physics_object.object_number, 1)
+
+    def test_physics_object_ETA_as_eta(self):
+        new_physics_object = physics_object.PhysicsObject(ETA=1.0)
+        self.assertEqual(new_physics_object.eta, 1.0)
+
+    def test_physics_object_ETA_as_ETA(self):
+        new_physics_object = physics_object.PhysicsObject(ETA=1.0)
+        self.assertEqual(new_physics_object.ETA, 1.0)
+
+    def test_physics_object_eta_as_ETA(self):
+        new_physics_object = physics_object.PhysicsObject(eta=1.0)
+        self.assertEqual(new_physics_object.ETA, 1.0)
+
+    def test_physics_object_theta_from_vector(self):
+        new_physics_object = physics_object.PhysicsObject(pt=1., eta=0., phi=0., mass=0.)
+        self.assertAlmostEqual(new_physics_object.theta, np.pi / 2)
 
 if __name__ == '__main__':
     unittest.main()
