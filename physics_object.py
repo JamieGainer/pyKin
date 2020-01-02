@@ -31,13 +31,22 @@ class PhysicsObject():
             vector = four_vector.FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, self.mass)
         except AttributeError:
             try:
+                # Make some sort of warning message: setting physics object to zero mass
                 vector = four_vector.FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, 0.)
-            except:
-                return
-        ### need to generalize this
+            except AttributeError:
+                try: # adding this approach breaks stuff.  Need a more thoughtful approach to this functionality.
+                    vector = four_vector.FourVector(self.energy, self.px, self.py, self.pz)
+                except:
+                    return
+        self.eta = vector.eta
+        self.phi = vector.phi
+        self.pt = vector.p_T
         self.energy = vector.E
         self.p = vector.p
         self.theta = vector.theta
+        self.px = vector.p_x
+        self.py = vector.p_y
+        self.pz = vector.p_z
 
     # method(s) in _set_attributes
     def _set_attribute(self, attribute, kwargs):
