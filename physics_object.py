@@ -1,4 +1,8 @@
+import logging
+
 import four_vector
+
+logger = logging.getLogger()
 
 class PhysicsObject():
 
