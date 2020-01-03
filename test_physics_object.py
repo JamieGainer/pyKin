@@ -90,7 +90,32 @@ class TestPhysicsObject(unittest.TestCase):
 
     def test_physics_object_theta_from_vector(self):
         new_physics_object = physics_object.PhysicsObject(pt=1., eta=0., phi=0., mass=0.)
+        new_physics_object.set_attributes_from_four_vector()
         self.assertAlmostEqual(new_physics_object.theta, np.pi / 2)
+
+    def test_physics_object_energy_from_vector(self):
+        pt, mass = 3., 4.
+        new_physics_object = physics_object.PhysicsObject(pt=pt, eta=0., phi=0., mass=mass)
+        new_physics_object.set_attributes_from_four_vector()
+        self.assertAlmostEqual(new_physics_object.energy, np.sqrt(pt**2 + mass**2))
+
+    def test_physics_object_energy_from_vector(self):
+        pt, mass = 3., 4.
+        new_physics_object = physics_object.PhysicsObject(pt=pt, eta=0., phi=0., mass=mass)
+        new_physics_object.set_attributes_from_four_vector()
+        self.assertAlmostEqual(new_physics_object.energy, np.sqrt(pt**2 + mass**2))
+
+    def test_physics_object_px_from_vector(self):
+        pt, mass = 3., 1.2
+        new_physics_object = physics_object.PhysicsObject(pt=pt, eta=0., phi=0., mass=mass)
+        new_physics_object.set_attributes_from_four_vector()
+        self.assertAlmostEqual(new_physics_object.px, pt)
+
+    def test_physics_object_py_from_vector(self):
+        pt, mass = 3., 1.2
+        new_physics_object = physics_object.PhysicsObject(pt=pt, eta=0., phi=np.pi/2, mass=mass)
+        new_physics_object.set_attributes_from_four_vector()
+        self.assertAlmostEqual(new_physics_object.py, pt)
 
 if __name__ == '__main__':
     unittest.main()

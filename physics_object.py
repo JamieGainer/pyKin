@@ -5,7 +5,6 @@ class PhysicsObject():
     def __init__(self, **kwargs):
         self._set_attribute_lists_and_dicts()
         self._set_attributes_from_kwargs(kwargs)
-        self._set_attributes_from_four_vector()
 
     def __getattr__(self, attribute):
         if attribute in self.attributes_to_rename:
@@ -25,28 +24,6 @@ class PhysicsObject():
     def _set_attributes_from_kwargs(self, kwargs):
         for attribute in kwargs:
             self._set_attribute(attribute, kwargs)
-
-    def _set_attributes_from_four_vector(self):
-        try:
-            vector = four_vector.FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, self.mass)
-        except AttributeError:
-            try:
-                # Make some sort of warning message: setting physics object to zero mass
-                vector = four_vector.FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, 0.)
-            except AttributeError:
-                try: # adding this approach breaks stuff.  Need a more thoughtful approach to this functionality.
-                    vector = four_vector.FourVector(self.energy, self.px, self.py, self.pz)
-                except:
-                    return
-        self.eta = vector.eta
-        self.phi = vector.phi
-        self.pt = vector.p_T
-        self.energy = vector.E
-        self.p = vector.p
-        self.theta = vector.theta
-        self.px = vector.p_x
-        self.py = vector.p_y
-        self.pz = vector.p_z
 
     # method(s) in _set_attributes
     def _set_attribute(self, attribute, kwargs):
@@ -99,3 +76,11 @@ class PhysicsObject():
                 raise AttributeError(attribute + " (or " + possible_attribute + ') is not set')
         except ValueError:
             raise AttributeError(attribute + ' is not a valid attribute of PhysicsObject.')
+
+    def set_attributes_from_four_vector(self):
+        vector = four_vector.FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, self.mass)
+        for field in ['p', 'theta']:
+            setattr(self, field, getattr(vector, field))
+        field_names = {'px': 'p_x', 'py': 'p_y', 'pz': 'p_z', 'energy': 'E'}
+        for object_field_name, vector_field_name in field_names.items():
+            setattr(self, object_field_name, getattr(vector, vector_field_name))
