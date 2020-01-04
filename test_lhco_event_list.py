@@ -33,6 +33,15 @@ class TestLHCOEventList(unittest.TestCase):
     def test_num_stable_charged_particles_lhco_event_list_from_file(self):
         self.assertListEqual([len(x.stable_charged_particles) for x in self.event_list.list], [0, 0, 0])
 
+    def test_missing_energy_eta_lhco_event_list_from_file(self):
+        self.assertListEqual([x.missing_energy.eta for x in self.event_list.list], [0., 0., 0.])
+
+    def test_missing_energy_phi_lhco_event_list_from_file(self):
+        self.assertListEqual([x.missing_energy.phi for x in self.event_list.list], [4.857, 1.926, 2.612])
+
+    def test_missing_energy_pt_lhco_event_list_from_file(self):
+        self.assertListEqual([x.missing_energy.pt for x in self.event_list.list], [275.16, 12.42, 11.76])
+
 
 if __name__ == '__main__':
     unittest.main()
