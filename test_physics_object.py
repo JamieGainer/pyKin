@@ -118,10 +118,29 @@ class TestPhysicsObject(unittest.TestCase):
         new_physics_object.set_attributes_from_four_vector()
         self.assertAlmostEqual(new_physics_object.py, pt)
 
-#    def test_physics_object_from_string(self, string):
-#        string = "   1    2   -1.219  4.739   449.95   0.11   1.0   0.0    12.15   0.0   0.0 "
-#        new_physics_object = physics_object.PhysicsObject.set_from_string(string)
+    def test_physics_object_from_string(self):
+        string = "   1    2   -1.219  4.739   449.95   0.11   1.0   0.0    12.15   0.0   0.0 "
+        new_physics_object = physics_object.PhysicsObject.set_from_string(string)
+        string_values = list(map(float, string.split()))
+        object_values = [getattr(new_physics_object, attr) for attr in
+                         ["object_number", "type", "eta", "phi", "pt", "mass", "n_tracks", "btag",
+                          "had_em", "dummy1", "dummy2"]]
+        self.assertListEqual(string_values, object_values)
 
+    def test_assertion_error_raised_from_string_with_too_many_fields(self):
+        string = "   1    2   -1.219  4.739   449.95   0.11   1.0   0.0    12.15   0.0   0.0 2"
+        with self.assertRaises(AssertionError):
+            new_physics_object = physics_object.PhysicsObject.set_from_string(string)
+
+    def test_assertion_error_raised_from_string_with_too_few_fields(self):
+        string = "   1    2   -1.219  4.739   449.95   0.11   1.0   0.0    12.15   0.0 "
+        with self.assertRaises(AssertionError):
+            new_physics_object = physics_object.PhysicsObject.set_from_string(string)
+
+    def test_assertion_error_raised_from_non_alphanumeric_character_in_string(self):
+        string = "#   1    2   -1.219  4.739   449.95   0.11   1.0   0.0    12.15   0.0 "
+        with self.assertRaises(AssertionError):
+            new_physics_object = physics_object.PhysicsObject.set_from_string(string)
 
 if __name__ == '__main__':
     unittest.main()

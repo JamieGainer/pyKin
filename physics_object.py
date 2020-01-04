@@ -3,6 +3,8 @@ import logging
 import four_vector
 
 logger = logging.getLogger()
+lhco_order_of_fields = ["object_number", "type", "eta", "phi", "pt", "mass", "n_tracks", "btag",
+                        "had_em", "dummy1", "dummy2"]
 
 class PhysicsObject():
 
@@ -16,12 +18,25 @@ class PhysicsObject():
         else:
             return self._find_and_get_similarly_named_attribute_or_raise_value_error(attribute)
 
+    @classmethod
+    def set_from_string(self, string):
+        fields = string.split()
+        self._check_for_invalid_fields(fields)
+        kwargs = self._make_physics_object_kwargs(fields)
+        return PhysicsObject(**kwargs)
+
+    def set_attributes_from_four_vector(self):
+        vector = four_vector.FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, self.mass)
+        for field in ['p', 'theta']:
+            setattr(self, field, getattr(vector, field))
+        field_names = {'px': 'p_x', 'py': 'p_y', 'pz': 'p_z', 'energy': 'E'}
+        for object_field_name, vector_field_name in field_names.items():
+            setattr(self, object_field_name, getattr(vector, vector_field_name))
+
     # method(s) in __init__
     def _set_attribute_lists_and_dicts(self):
-        self.lhco_order_of_fields = ["object_number", "type", "eta", "phi", "pt", "mass", "n_tracks", "btag",
-                                     "had_em", "dummy1", "dummy2"]
         self.other_valid_fields = ['energy', 'px', 'py', 'pz', 'p', 'theta']
-        self.possible_attributes = self.lhco_order_of_fields + self.other_valid_fields
+        self.possible_attributes = lhco_order_of_fields + self.other_valid_fields
         self.attributes_to_rename = {'jmass': 'mass', 'ntrk': 'n_tracks', 'e': 'energy', 'momentum': 'p'}
         self.set_attributes = []
 
@@ -81,10 +96,14 @@ class PhysicsObject():
         except ValueError:
             raise AttributeError(attribute + ' is not a valid attribute of PhysicsObject.')
 
-    def set_attributes_from_four_vector(self):
-        vector = four_vector.FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, self.mass)
-        for field in ['p', 'theta']:
-            setattr(self, field, getattr(vector, field))
-        field_names = {'px': 'p_x', 'py': 'p_y', 'pz': 'p_z', 'energy': 'E'}
-        for object_field_name, vector_field_name in field_names.items():
-            setattr(self, object_field_name, getattr(vector, vector_field_name))
+    # methods in set_from_string
+    @classmethod
+    def _check_for_invalid_fields(cls, fields):
+        assert len(fields) == len(lhco_order_of_fields)
+        assert "".join(fields).replace('.', '').replace('-', '').isdigit()
+
+    @classmethod
+    def _make_physics_object_kwargs(cls, fields):
+        values = [float(field) if "." in field else int(field) for field in fields]
+        kwargs = {attr: value for attr, value in zip(lhco_order_of_fields, values)}
+        return kwargs
