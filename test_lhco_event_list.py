@@ -15,6 +15,9 @@ class TestLHCOEventList(unittest.TestCase):
     def test_trigger_words_in_lhco_event_list_from_file(self):
         self.assertListEqual([x.trigger_word for x in self.event_list.list], [2563, 3587, 3599])
 
+    def test_num_photons_lhco_event_list_from_file(self):
+        self.assertListEqual([len(x.photons) for x in self.event_list.list], [0, 0, 0])
+
 
 if __name__ == '__main__':
     unittest.main()
