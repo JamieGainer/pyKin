@@ -21,5 +21,5 @@ class LHCOEventList():
                         list_of_events[-1].add_physics_object_from_string(line, add_four_vector_attributes=False)
                     except:
                         if line.strip() != '':
-                            logger.warning('Line: ' + line + " not written to file.")
+                            logger.warning('Line: ' + line + " ignored.")
         return LHCOEventList(list_of_events)
