@@ -22,8 +22,11 @@ class LHCOEvent():
         else:
             getattr(self, attribute).append(physics_object)
 
-    def add_physics_object_from_string(self, string):
-        self.add_physics_object(physics_object.PhysicsObject.set_from_string(string))
+    def add_physics_object_from_string(self, string, add_four_vector_attributes=False):
+        object = physics_object.PhysicsObject.set_from_string(string)
+        if add_four_vector_attributes:
+            object.set_attributes_from_four_vector()
+        self.add_physics_object(object)
 
     @classmethod
     def init_from_string(cls, string):
