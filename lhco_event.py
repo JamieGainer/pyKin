@@ -2,6 +2,9 @@ import logging
 
 logger = logging.getLogger()
 
+attributes_from_types = {0: 'photons', 1: 'electrons', 2: 'muons', 3: 'taus',
+                         4: 'jets', 5: 'stable_charged_particles', 6: 'missing_energy'}
+
 class LHCOEvent():
 
     def __init__(self, event_number=None, trigger_word=None):
