@@ -12,6 +12,9 @@ class TestLHCOEventList(unittest.TestCase):
     def test_event_numbers_in_lhco_event_list_from_file(self):
         self.assertListEqual([x.event_number for x in self.event_list.list], [103, 5, 3])
 
+    def test_trigger_words_in_lhco_event_list_from_file(self):
+        self.assertListEqual([x.trigger_word for x in self.event_list.list], [2563, 3587, 3599])
+
 
 if __name__ == '__main__':
     unittest.main()
