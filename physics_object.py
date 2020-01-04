@@ -19,10 +19,10 @@ class PhysicsObject():
             return self._find_and_get_similarly_named_attribute_or_raise_value_error(attribute)
 
     @classmethod
-    def set_from_string(self, string):
+    def set_from_string(cls, string):
         fields = string.split()
-        self._check_for_invalid_fields(fields)
-        kwargs = self._make_physics_object_kwargs(fields)
+        cls._check_for_invalid_fields(fields)
+        kwargs = cls._make_physics_object_kwargs(fields)
         return PhysicsObject(**kwargs)
 
     def set_attributes_from_four_vector(self):
