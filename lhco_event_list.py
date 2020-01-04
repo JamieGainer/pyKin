@@ -18,7 +18,7 @@ class LHCOEventList():
                     list_of_events.append(lhco_event.LHCOEvent.init_from_string(line))
                 except:
                     try:
-                        list_of_events[-1].add_physics_object_from_string(line, add_four_vector_attributes=False)
+                        list_of_events[-1].add_physics_object_from_string(line, add_four_vector_attributes=True)
                     except:
                         if line.strip() != '':
                             logger.warning('Line: ' + line + " ignored.")

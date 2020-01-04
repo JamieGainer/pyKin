@@ -1,4 +1,8 @@
+import logging
+
 import numpy as np
+
+logger = logging.getLogger()
 
 class FourVector():
 
@@ -23,7 +27,16 @@ class FourVector():
     def _set_p_pt_and_M(self):
         self.p_T = np.sqrt(self.p_x**2 + self.p_y**2)
         self.p = np.sqrt(self.p_T**2 + self.p_z**2)
-        self.M = np.sqrt(self.E**2 - self.p**2)
+        self._set_M()
+
+    def _set_M(self):
+        M_squared = self.E**2 - self.p**2
+        if M_squared < 0.:
+            logger.warning("Mass squared less than 0, setting mass to 0 when E = " +
+                           str(self.E) + ', p = ' + str(self.p) + '.')
+            self.M = 0.
+        else:
+            self.M = np.sqrt(M_squared)
 
     def _obtain_phi(self):
         self.phi = np.arctan2(self.p_y, self.p_x)

@@ -1,11 +1,12 @@
 import unittest
 
+import numpy as np
+
 import lhco_event_list
 
 class TestLHCOEventList(unittest.TestCase):
 
-    event_list = lhco_event_list.LHCOEventList.from_file('demo.lhco')
-
+    # tests
     def test_number_of_events_in_lhco_event_list_from_file(self):
         self.assertEqual(len(self.event_list.list), 3)
 
@@ -42,6 +43,24 @@ class TestLHCOEventList(unittest.TestCase):
     def test_missing_energy_pt_lhco_event_list_from_file(self):
         self.assertListEqual([x.missing_energy.pt for x in self.event_list.list], [275.16, 12.42, 11.76])
 
+    def test_missing_energy_E_lhco_event_list_from_file(self):
+        self.assertListAlmostEqual([x.missing_energy.E for x in self.event_list.list], [275.16, 12.42, 11.76])
+
+    def test_missing_energy_p_lhco_event_list_from_file(self):
+        self.assertListAlmostEqual([x.missing_energy.p for x in self.event_list.list], [275.16, 12.42, 11.76])
+
+    def test_missing_energy_px_lhco_event_list_from_file(self):
+        self.assertListAlmostEqual([x.missing_energy.pt * np.cos(x.missing_energy.phi) for x in self.event_list.list],
+                                   [x.missing_energy.px for x in self.event_list.list])
+
+
+    # helper methods
+    event_list = lhco_event_list.LHCOEventList.from_file('demo.lhco')
+
+    def assertListAlmostEqual(self, list_1, list_2):
+        self.assertEqual(len(list_1), len(list_2))
+        for a, b in zip(list_1, list_2):
+            self.assertAlmostEqual(a, b)
 
 if __name__ == '__main__':
     unittest.main()

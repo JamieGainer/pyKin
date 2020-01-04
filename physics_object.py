@@ -13,10 +13,10 @@ class PhysicsObject():
         self._set_attributes_from_kwargs(kwargs)
 
     def __getattr__(self, attribute):
-        if attribute in self.attributes_to_rename:
-            return getattr(self, self.attributes_to_rename[attribute])
+        if attribute.lower() in self.attributes_to_rename:
+            return getattr(self, self.attributes_to_rename[attribute.lower()])
         else:
-            return self._find_and_get_similarly_named_attribute_or_raise_value_error(attribute)
+            return self._find_and_get_similarly_named_attribute_or_raise_value_error(attribute.lower())
 
     @classmethod
     def set_from_string(cls, string):
