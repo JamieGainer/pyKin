@@ -1,13 +1,14 @@
 import unittest
-import four_vector
 
 import numpy as np
+
+from pykin.core import FourVector
 
 E, px, py, pz = 10., 3., 4., 5
 
 class TestFourVector(unittest.TestCase):
 
-    a = four_vector.FourVector(E, px, py, pz)
+    a = FourVector(E, px, py, pz)
 
     def test_obtain_p_t(self):
         self.assertEqual(self.a.p_T, pz)
@@ -61,17 +62,17 @@ class TestFourVector(unittest.TestCase):
             self.assertAlmostEqual(a_i, b_i)
 
     def _compare_phi_from_vector_with_given_phi_and_phi(self, phi):
-        a = four_vector.FourVector(10., 5. * np.cos(phi), 5. * np.sin(phi), 5.)
+        a = FourVector(10., 5. * np.cos(phi), 5. * np.sin(phi), 5.)
         self.assertAlmostEqual(a.phi, phi)
 
     def _compare_theta_from_vector_with_given_theta_and_phi_and_theta(self, theta, phi=1.):
-        a = four_vector.FourVector(10., 5. * np.cos(phi) * np.sin(theta),
+        a = FourVector(10., 5. * np.cos(phi) * np.sin(theta),
                                    5. * np.sin(phi) * np.sin(theta),
                                    5. * np.cos(theta))
         self.assertAlmostEqual(a.theta, theta)
 
     def _compare_eta_from_vector_with_given_theta_and_phi_and_theta(self, theta, phi=1.):
-        a = four_vector.FourVector(10., 5. * np.cos(phi) * np.sin(theta),
+        a = FourVector(10., 5. * np.cos(phi) * np.sin(theta),
                                    5. * np.sin(phi) * np.sin(theta),
                                    5. * np.cos(theta))
         self.assertAlmostEqual(a.eta, self._eta_as_a_function_of_theta(theta))
@@ -80,7 +81,7 @@ class TestFourVector(unittest.TestCase):
         return -np.log(np.tan(theta / 2))
 
     def _generic_four_vector(self, theta, phi, E=10., p=5.):
-        return four_vector.FourVector(E, p * np.sin(theta) * np.cos(phi),
+        return FourVector(E, p * np.sin(theta) * np.cos(phi),
                                       p * np.sin(theta) * np.sin(phi), p * np.cos(theta))
 
     def _component_list_from_four_vector(self, four_vector):
@@ -88,7 +89,7 @@ class TestFourVector(unittest.TestCase):
 
     def _can_we_redefine_four_vector_from_eta_phi_pt_M(self, theta, phi, E=10., p=5.):
         a = self._generic_four_vector(theta, phi, E=E, p=p)
-        b = four_vector.FourVector.from_eta_phi_pt_M(a.eta, a.phi, a.p_T, a.M)
+        b = FourVector.from_eta_phi_pt_M(a.eta, a.phi, a.p_T, a.M)
         self.assertListAlmostEqual(self._component_list_from_four_vector(a),
                                    self._component_list_from_four_vector(b))
 

@@ -2,7 +2,8 @@ import unittest
 
 import numpy as np
 
-import lhco_event_list
+from pykin.lhco import lhco_event_list
+
 
 class TestLHCOEventList(unittest.TestCase):
 
@@ -53,6 +54,26 @@ class TestLHCOEventList(unittest.TestCase):
         self.assertListAlmostEqual([x.missing_energy.pt * np.cos(x.missing_energy.phi) for x in self.event_list.list],
                                    [x.missing_energy.px for x in self.event_list.list])
 
+    def test_second_jet_eta_lhco_event_list_from_file(self):
+        self.assertListEqual([x.jets[1].eta for x in self.event_list.list], [-0.829, 1.207, -0.036])
+
+    def test_second_jet_phi_lhco_event_list_from_file(self):
+        self.assertListEqual([x.jets[1].phi for x in self.event_list.list], [2.540, 4.216, 1.763])
+
+    def test_second_jet_pt_lhco_event_list_from_file(self):
+        self.assertListEqual([x.jets[1].pt for x in self.event_list.list], [67.26, 306.56, 13.38])
+
+    def test_second_jet_p_lhco_event_list_from_file(self):
+        self.assertListAlmostEqual([x.jets[1].p for x in self.event_list.list],
+                                   [x.jets[1].pt * np.cosh(x.jets[1].eta) for x in self.event_list.list])
+
+    def test_second_jet_E_lhco_event_list_from_file(self):
+        self.assertListAlmostEqual([x.jets[1].E for x in self.event_list.list],
+                                   [np.sqrt(x.jets[1].p**2 + x.jets[1].M**2) for x in self.event_list.list])
+
+    def test_second_jet_px_lhco_event_list_from_file(self):
+        self.assertListAlmostEqual([x.jets[1].pt * np.cos(x.jets[1].phi) for x in self.event_list.list],
+                                   [x.jets[1].px for x in self.event_list.list])
 
     # helper methods
     event_list = lhco_event_list.LHCOEventList.from_file('demo.lhco')

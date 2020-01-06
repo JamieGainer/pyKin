@@ -1,6 +1,6 @@
 import logging
 
-import four_vector
+from pykin.core import FourVector
 
 logger = logging.getLogger()
 lhco_order_of_fields = ["object_number", "type", "eta", "phi", "pt", "mass", "n_tracks", "btag",
@@ -26,7 +26,7 @@ class PhysicsObject():
         return PhysicsObject(**kwargs)
 
     def set_attributes_from_four_vector(self):
-        vector = four_vector.FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, self.mass)
+        vector = FourVector.from_eta_phi_pt_M(self.eta, self.phi, self.pt, self.mass)
         for field in ['p', 'theta']:
             setattr(self, field, getattr(vector, field))
         field_names = {'px': 'p_x', 'py': 'p_y', 'pz': 'p_z', 'energy': 'E'}
@@ -37,7 +37,8 @@ class PhysicsObject():
     def _set_attribute_lists_and_dicts(self):
         self.other_valid_fields = ['energy', 'px', 'py', 'pz', 'p', 'theta']
         self.possible_attributes = lhco_order_of_fields + self.other_valid_fields
-        self.attributes_to_rename = {'jmass': 'mass', 'ntrk': 'n_tracks', 'e': 'energy', 'momentum': 'p'}
+        self.attributes_to_rename = {'jmass': 'mass', 'ntrk': 'n_tracks', 'e': 'energy', 'momentum': 'p',
+                                     'm': 'mass'}
         self.set_attributes = []
 
     def _set_attributes_from_kwargs(self, kwargs):

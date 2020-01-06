@@ -1,6 +1,6 @@
 import logging
 
-import lhco_event
+from pykin.lhco import LHCOEvent
 
 logger = logging.getLogger()
 
@@ -15,7 +15,7 @@ class LHCOEventList():
         with open(file_name, 'r') as event_file:
             for line in event_file:
                 try:
-                    list_of_events.append(lhco_event.LHCOEvent.init_from_string(line))
+                    list_of_events.append(LHCOEvent.init_from_string(line))
                 except:
                     try:
                         list_of_events[-1].add_physics_object_from_string(line, add_four_vector_attributes=True)
