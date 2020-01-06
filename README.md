@@ -1,4 +1,4 @@
-# pyKin
+# pykin
 Package for python particle physics analyses
 
 The goal is to create a unified analysis framework in clean object-oriented python that can solve any problem I've run into on
